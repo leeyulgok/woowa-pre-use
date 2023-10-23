@@ -9,11 +9,11 @@ const Navbar = () => {
     { title: "4주차", href: "/week4" },
   ];
   return (
-    <nav>
+    <nav className="bg-black text-white mb-2">
       <div>
         <ul className="flex">
           {navList.map((list, i) => (
-            <li key={i}>
+            <li key={i} className="m-2">
               <Link href={list.href}>{list.title}</Link>
             </li>
           ))}
