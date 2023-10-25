@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import WeekOne from "@/components/[weeks]/weekOne";
+import WeekOne from "@/components/[weeks]/WeekOne";
 
 const Weeks = () => {
   const path = usePathname();

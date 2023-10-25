@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { generateRandomNumbers } from "../utils/numberGenerator";
 
 type WeekOneProps = {
   title: string;
@@ -6,7 +7,14 @@ type WeekOneProps = {
 
 const WeekOne: FC<WeekOneProps> = ({ title }) => {
   const [isGameStarted, setGameStarted] = useState(false);
+  const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
 
+  const startGame = () => {
+    const newNumbers = generateRandomNumbers();
+    setRandomNumbers(newNumbers);
+    setGameStarted(true);
+  };
+  
   return (
     <main className="WeekOneContainer p-3 w-full h-full">
       <div className="headerContainer">
@@ -18,7 +26,7 @@ const WeekOne: FC<WeekOneProps> = ({ title }) => {
           {!isGameStarted ? (
             <button
               className="border border-black bg-white p-4"
-              onClick={() => setGameStarted(true)}
+              onClick={startGame}
             >
               게임시작
             </button>
