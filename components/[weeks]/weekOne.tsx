@@ -8,13 +8,24 @@ type WeekOneProps = {
 const WeekOne: FC<WeekOneProps> = ({ title }) => {
   const [isGameStarted, setGameStarted] = useState(false);
   const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
+  const [userInput, setUserInput] = useState<string>("");
 
   const startGame = () => {
     const newNumbers = generateRandomNumbers();
     setRandomNumbers(newNumbers);
     setGameStarted(true);
   };
-  
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserInput(event.target.value);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setUserInput("");
+    console.log(userInput);
+  };
+
   return (
     <main className="WeekOneContainer p-3 w-full h-full">
       <div className="headerContainer">
@@ -39,8 +50,18 @@ const WeekOne: FC<WeekOneProps> = ({ title }) => {
               </div>
               <div className="inputBox w-2/6 p-2">
                 <h3>숫자를 입력해주세요</h3>
-                <form action="" className="flex flex-col">
-                  <input type="text" name="userNumber" id="userNumber" />
+                <form
+                  action=""
+                  className="flex flex-col"
+                  onSubmit={handleSubmit}
+                >
+                  <input
+                    type="text"
+                    name="userNumber"
+                    id="userNumber"
+                    value={userInput}
+                    onChange={handleInputChange}
+                  />
                   <button className="border border-black bg-white">확인</button>
                 </form>
               </div>
