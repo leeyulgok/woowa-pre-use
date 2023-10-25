@@ -9,4 +9,4 @@
 
 ## 1주차 미션 - 숫자 야구 만들기
 [자세한 내용](https://github.com/leeyulgok/javascript-baseball-6)
-![]([https://github.com/leeyulgok/woowa-pre-use/public/1주차.png](https://github.com/leeyulgok/woowa-pre-use/blob/main/public/1%EC%A3%BC%EC%B0%A8.png)https://github.com/leeyulgok/woowa-pre-use/blob/main/public/1%EC%A3%BC%EC%B0%A8.png)
+![1주차 이미지](public/1주차.png)
