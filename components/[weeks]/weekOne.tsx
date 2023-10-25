@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import { generateRandomNumbers } from "../utils/numberGenerator";
+import { compareNumbers } from "../utils/compareNumbers";
 
 type WeekOneProps = {
   title: string;
@@ -9,6 +10,10 @@ const WeekOne: FC<WeekOneProps> = ({ title }) => {
   const [isGameStarted, setGameStarted] = useState(false);
   const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
   const [userInput, setUserInput] = useState<string>("");
+  const [result, setResult] = useState<{ strike: number; ball: number }>({
+    strike: 0,
+    ball: 0,
+  });
 
   const startGame = () => {
     const newNumbers = generateRandomNumbers();
@@ -22,8 +27,16 @@ const WeekOne: FC<WeekOneProps> = ({ title }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    const comparisonResult = compareNumbers(randomNumbers, userInput);
+    setResult(comparisonResult);
     setUserInput("");
-    console.log(userInput);
+  };
+
+  const getColor = (index: number) => {
+    if (result.strike > index) return "bg-yellow-500";
+    if (result.strike + result.ball > index) return "bg-green-500";
+    if (result.strike === 0 && result.ball === 0) return "bg-red-500";
+    return "bg-white";
   };
 
   return (
@@ -44,9 +57,21 @@ const WeekOne: FC<WeekOneProps> = ({ title }) => {
           ) : (
             <>
               <div className="answerBox bg-white w-10/12 flex p-2 justify-center items-center">
-                <div className="answerOne border border-black rounded-full w-52 h-52 m-4" />
-                <div className="answerTwo border border-black rounded-full w-52 h-52 m-4" />
-                <div className="answerThree border border-black rounded-full w-52 h-52 m-4" />
+                <div
+                  className={`answerOne border border-black rounded-full w-52 h-52 m-4 ${getColor(
+                    0
+                  )}`}
+                />
+                <div
+                  className={`answerOne border border-black rounded-full w-52 h-52 m-4 ${getColor(
+                    1
+                  )}`}
+                />
+                <div
+                  className={`answerOne border border-black rounded-full w-52 h-52 m-4 ${getColor(
+                    2
+                  )}`}
+                />
               </div>
               <div className="inputBox w-2/6 p-2">
                 <h3>숫자를 입력해주세요</h3>
