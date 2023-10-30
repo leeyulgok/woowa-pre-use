@@ -14,4 +14,4 @@
 ---
 ## 2주차 미션 - 자동차 경주 게임
 [자세한 내용](https://github.com/leeyulgok/javascript-racingcar-6)
-![2주차 이미지](2주차.png)
+![2주차 이미지](public/2주차.png)
