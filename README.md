@@ -11,3 +11,7 @@
 ![1주차 이미지](public/1주차.png)
 위의 사진과 같이 사용자가 값을 입력하면 strike와 ball에 따라 바뀌도록 만들었습니다.
 자세한 코드는 components/WeekOne.tsx 를 보면 나와있습니다.
+---
+## 2주차 미션 - 자동차 경주 게임
+[자세한 내용](https://github.com/leeyulgok/javascript-racingcar-6)
+![2주차 이미지](2주차_사진.png)
