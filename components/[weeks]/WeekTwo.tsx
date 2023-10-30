@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import React from "react";
 
 type WeekTwoProps = {
   title: string;
@@ -6,9 +7,17 @@ type WeekTwoProps = {
 
 const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
   const [isGamemode, setIsGamemode] = useState(false);
+  const [participantInput, setParticipantInput] = useState<string[]>([""]);
 
   const startGame = () => {
     setIsGamemode(true);
+  };
+
+  const handleAddInput = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (participantInput.length < 5) {
+      setParticipantInput([...participantInput, ""]);
+    }
   };
 
   return (
@@ -45,21 +54,33 @@ const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
               <div className="userListFormContainer">
                 <form className="flex flex-col m-2">
                   <label htmlFor="inputTitle">참가할 인원목록</label>
-                  <input
-                    className="border border-black rounded-lg"
-                    type="text"
-                    name="userName"
-                  />
+                  {participantInput.map((input, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      value={input}
+                      onChange={(event) => {
+                        const newInputs = [...participantInput];
+                        newInputs[index] = event.target.value;
+                        setParticipantInput(newInputs);
+                      }}
+                      className="border border-black m-1"
+                    />
+                  ))}
                   <div className="buttonContainer flex justify-end m-2">
-                    <button className="m-1">+</button>
+                    <button
+                      className="m-1"
+                      onClick={handleAddInput}
+                      disabled={participantInput.length >= 5}
+                    >
+                      +
+                    </button>
                     <button className="m-1">확정</button>
                   </div>
                 </form>
               </div>
-              <div className="playTimeFormContainer">
+              <div className="playGameFormContainer">
                 <form className="flex flex-col m-2">
-                  <label htmlFor="inputPlaytimes">진행횟수</label>
-                  <input type="number" name="playTimes" />
                   <button className="m-1">경주시작</button>
                 </form>
               </div>
