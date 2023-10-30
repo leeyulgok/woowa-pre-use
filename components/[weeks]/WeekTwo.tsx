@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import React from "react";
+import Car from "../utils/Car";
 
 type WeekTwoProps = {
   title: string;
@@ -8,8 +9,8 @@ type WeekTwoProps = {
 const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
   const [isGamemode, setIsGamemode] = useState<boolean>(false);
   const [participantInput, setParticipantInput] = useState<string[]>([""]);
-  const [participants, setParticipants] = useState<string[]>([]);
   const [showStartButton, setShowStartButton] = useState<boolean>(false);
+  const [cars, setCars] = useState<Car[]>([]);
 
   const startGame = () => {
     setIsGamemode(true);
@@ -24,9 +25,35 @@ const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
 
   const handleConfirm = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setParticipants(participantInput.filter((input) => input.trim() !== ""));
+    const newCars = participantInput
+      .filter((input) => input.trim() !== "")
+      .map((name) => new Car(name));
+    setCars(newCars);
     setShowStartButton(true);
   };
+
+  const startRace = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    let isRaceOver = false;
+
+    const raceInterval = setInterval(() => {
+      const updateCars = cars.map(car => {
+        const randomNumber = Math.floor(Math.random() * 10);
+        car.advance(randomNumber);
+        return car;
+      });
+
+      setCars([...updateCars]);
+
+      updateCars.forEach(car => {
+        if(car.getPosition().length >= 115) {
+          isRaceOver = true;
+          alert(`${car.getName()}가 승리했습니다!`);
+          clearInterval(raceInterval);
+        }
+      });
+    }, 50)
+  }
 
   return (
     <main className="mainContainer p-2">
@@ -48,15 +75,17 @@ const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
               <div className="userContainer border border-black m-1 p-1">
                 <h2>참가자 목록</h2>
                 <div className="userList">
-                  {participants.map((participant, index) => (
-                    <h3 key={index}>{participant}</h3>
+                  {cars.map((car, index) => (
+                    <h3 key={index}>{car.getName()}</h3>
                   ))}
                 </div>
               </div>
               <div className="carContainer m-1 p-1">
                 <h2>경주상황</h2>
                 <div className="carPosition">
-                  <h3>-</h3>
+                  {cars.map((car, index) => (
+                    <h3 key={index}>{car.getPosition()}</h3>
+                  ))}
                 </div>
               </div>
             </div>
@@ -95,7 +124,7 @@ const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
               ) : (
                 <div className="playGameFormContainer">
                   <form className="flex flex-col m-2">
-                    <button className="m-1">경주시작</button>
+                    <button className="m-1" onClick={startRace}>경주시작</button>
                   </form>
                 </div>
               )}
