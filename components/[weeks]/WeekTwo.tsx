@@ -6,8 +6,10 @@ type WeekTwoProps = {
 };
 
 const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
-  const [isGamemode, setIsGamemode] = useState(false);
+  const [isGamemode, setIsGamemode] = useState<boolean>(false);
   const [participantInput, setParticipantInput] = useState<string[]>([""]);
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [showStartButton, setShowStartButton] = useState<boolean>(false);
 
   const startGame = () => {
     setIsGamemode(true);
@@ -18,6 +20,12 @@ const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
     if (participantInput.length < 5) {
       setParticipantInput([...participantInput, ""]);
     }
+  };
+
+  const handleConfirm = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setParticipants(participantInput.filter((input) => input.trim() !== ""));
+    setShowStartButton(true);
   };
 
   return (
@@ -40,7 +48,9 @@ const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
               <div className="userContainer border border-black m-1 p-1">
                 <h2>참가자 목록</h2>
                 <div className="userList">
-                  <h3>user1</h3>
+                  {participants.map((participant, index) => (
+                    <h3 key={index}>{participant}</h3>
+                  ))}
                 </div>
               </div>
               <div className="carContainer m-1 p-1">
@@ -50,40 +60,45 @@ const WeekTwo: FC<WeekTwoProps> = ({ title }) => {
                 </div>
               </div>
             </div>
-            <div className="inputContainer border border-black justify-center items-center text-center">
-              <div className="userListFormContainer">
-                <form className="flex flex-col m-2">
-                  <label htmlFor="inputTitle">참가할 인원목록</label>
-                  {participantInput.map((input, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      value={input}
-                      onChange={(event) => {
-                        const newInputs = [...participantInput];
-                        newInputs[index] = event.target.value;
-                        setParticipantInput(newInputs);
-                      }}
-                      className="border border-black m-1"
-                    />
-                  ))}
-                  <div className="buttonContainer flex justify-end m-2">
-                    <button
-                      className="m-1"
-                      onClick={handleAddInput}
-                      disabled={participantInput.length >= 5}
-                    >
-                      +
-                    </button>
-                    <button className="m-1">확정</button>
-                  </div>
-                </form>
-              </div>
-              <div className="playGameFormContainer">
-                <form className="flex flex-col m-2">
-                  <button className="m-1">경주시작</button>
-                </form>
-              </div>
+            <div className="inputContainer border border-black justify-center items-center text-center w-40">
+              {!showStartButton ? (
+                <div className="userListFormContainer">
+                  <form className="flex flex-col m-2">
+                    <label htmlFor="inputTitle">참가할 인원목록</label>
+                    {participantInput.map((input, index) => (
+                      <input
+                        key={index}
+                        type="text"
+                        value={input}
+                        onChange={(event) => {
+                          const newInputs = [...participantInput];
+                          newInputs[index] = event.target.value;
+                          setParticipantInput(newInputs);
+                        }}
+                        className="border border-black m-1"
+                      />
+                    ))}
+                    <div className="buttonContainer flex justify-end m-2">
+                      <button
+                        className="m-1"
+                        onClick={handleAddInput}
+                        disabled={participantInput.length >= 5}
+                      >
+                        +
+                      </button>
+                      <button className="m-1" onClick={handleConfirm}>
+                        확정
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              ) : (
+                <div className="playGameFormContainer">
+                  <form className="flex flex-col m-2">
+                    <button className="m-1">경주시작</button>
+                  </form>
+                </div>
+              )}
             </div>
           </>
         )}
