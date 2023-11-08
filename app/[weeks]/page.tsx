@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import WeekOne from "@/components/[weeks]/WeekOne";
 import WeekTwo from "@/components/[weeks]/WeekTwo";
+import WeekThree from "@/components/[weeks]/WeekThree";
 
 const Weeks = () => {
   const path = usePathname();
@@ -13,6 +14,8 @@ const Weeks = () => {
       return <WeekOne title={title} />
     case "2주차":
       return <WeekTwo title={title} />
+    case "3주차":
+      return <WeekThree title={title} />
     default:
       <div>{title}</div>
       break;
