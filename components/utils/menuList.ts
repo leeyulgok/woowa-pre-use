@@ -1,4 +1,14 @@
-const MENU_LIST = {
+interface MenuListItem {
+  name: string;
+  price: number;
+  category: string;
+}
+
+interface MenuList {
+  [key: string]: MenuListItem;
+}
+
+const MENU_LIST: MenuList = {
   양송이수프: { name: "양송이수프", price: 6000, category: "appetizers"},
   타파스: { name: "타파스", price: 5500, category: "appetizers"},
   시저샐러드: { name: "시저샐러드", price: 8000, category: "appetizers"},
