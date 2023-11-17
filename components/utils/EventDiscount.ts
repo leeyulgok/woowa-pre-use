@@ -1,19 +1,15 @@
 import MENU_LIST from "./menuList";
-
-type OrderMenu = {
-  orderItems: { food: string; count: number }[];
-  totalPrice: number;
-};
+import OrderedMenu from "./OrderedMenu";
 
 class EventDiscount {
   private date: Date;
-  private orderMenu: OrderMenu;
-  private gift: string | null;
+  private orderedMenu: OrderedMenu;
+  private gift: boolean;
 
-  constructor(orderMenu: OrderMenu, date: Date) {
-    this.orderMenu = orderMenu;
+  constructor(orderedMenu: OrderedMenu, date: Date) {
+    this.orderedMenu = orderedMenu;
     this.date = date;
-    this.gift = null;
+    this.gift = false;
   }
 
   private parseDate(): { month: number; date: number; day: number } {
@@ -29,9 +25,9 @@ class EventDiscount {
     const { day } = this.parseDate();
     let discount = 0;
     if (day >= 0 && day <= 4) {
-      this.orderMenu.orderItems.forEach(item => {
+      this.orderedMenu.getOrderItems().forEach((item) => {
         const menuItem = MENU_LIST[item.food];
-        if (menuItem && menuItem.category === 'desserts') {
+        if (menuItem && menuItem.category === "desserts") {
           discount += WEEKDAY_DISCOUNT;
         }
       });
@@ -44,9 +40,9 @@ class EventDiscount {
     const { day } = this.parseDate();
     let discount = 0;
     if (day === 5 || day === 6) {
-      this.orderMenu.orderItems.forEach(item => {
+      this.orderedMenu.getOrderItems().forEach((item) => {
         const menuItem = MENU_LIST[item.food];
-        if (menuItem && menuItem.category === 'mains') {
+        if (menuItem && menuItem.category === "mains") {
           discount += WEEKEND_DISCOUNT;
         }
       });
@@ -57,12 +53,12 @@ class EventDiscount {
   private specialDiscount(): number {
     const { month, date } = this.parseDate();
     const CHRISTMAS_DAY = 25;
-    return (month === 12 && date === CHRISTMAS_DAY) ? 1000 : 0;
+    return month === 12 && date === CHRISTMAS_DAY ? 1000 : 0;
   }
 
   private checkForGiftEvent(): void {
-    if (this.orderMenu.totalPrice > 120000) {
-      this.gift = '샴페인';
+    if (this.orderedMenu.getTotalPrice() > 120000) {
+      this.gift = true;
     }
   }
 
@@ -83,10 +79,10 @@ class EventDiscount {
   }
 
   public finalTotalPrice(): number {
-    return this.orderMenu.totalPrice - this.totalDiscount();
+    return this.orderedMenu.getTotalPrice() - this.totalDiscount();
   }
 
-  public getGift(): string | null {
+  public getGift(): boolean | null {
     return this.gift;
   }
 }
