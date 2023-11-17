@@ -42,4 +42,19 @@
   - 당첨 금액이 있으면 당첨 금액 제시
     (추첨시작 버튼은 계속 누를 수 있으며 누를 때 마다 당첨 번호 변경)
 ---
+## 4주차 미션 - 크리스마스 프로모션
+[자세한 내용]([https://github.com/leeyulgok/javascript-lotto-6](https://github.com/leeyulgok/javascript-christmas-6-leeyulgok)https://github.com/leeyulgok/javascript-christmas-6-leeyulgok)
+![4주차 이미지](public/4주차.png)
 
+이번 페이지도 아주 간단하게만 진행했습니다.
+
+1. 이용방법
+  - 날짜 선택 후 확정
+  - 주문 수량 선택 후 주문하기
+  - 해당되는 할인 혜택 및 주문금액 랜더링
+
+2. 할인 혜택
+  - 기존과는 줄여서 작게만 시도.
+  - 평일/주말/특별/추가할인 4가지 할인혜택
+---
+자세한 후기는 티스토리에 업로드 예정
